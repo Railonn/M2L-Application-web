@@ -58,12 +58,11 @@
                   </div>
                   <div class="container mt-3">
                      <?php
+                        // Si le demandeur a effectué des demandes de remboursement de frais, on affiche un tableau avec les lignes de frais
+                        // Sinon affiche un message
                         if(count($listeDemandesFrais) > 0)
                         {
                         ?>
-                     <form class="form-inline mb-4">
-                        <input class="form-control form-control-md w-100" type="text" placeholder="Rechercher vos demandes de remboursement" aria-label="Search">
-                     </form>
                      <table class="table bg-light text-dark">
                         <thead class="thead-light">
                            <tr>
@@ -79,18 +78,22 @@
                         </thead>
                         <?php
                            $i = 1;
+                           // Initialisation des variables contenant les informations des lignes de frais
                            foreach($listeDemandesFrais as $uneDemande) {
                            	$date = $uneDemande['DATE_FRAIS'];
-                                                          $motif = $uneDemande['ID_MOTIF'];
-                                                          $trajet = $uneDemande['TRAJET'];
-                                                          $km = $uneDemande['KM'];
-                                                          $status = $uneDemande['LIGNEVALIDE'];
-                                     		      ?>
+                              $motif = $uneDemande['ID_MOTIF'];
+                              $trajet = $uneDemande['TRAJET'];
+                              $km = $uneDemande['KM'];
+                              $status = $uneDemande['LIGNEVALIDE'];
+                        ?>
+                        <!-- Ajoute des lignes dans le tableau en fonction du nombre de demande de remboursement effectué par le demandeur -->
                         <tbody>
                            <tr>
+                              <!-- Affiche les informations dans les lignes du tableau -->
                               <td class="font-weight-bold"><?=$i?></td>
                               <td><?=$date?></td>
-                              <td class="font-weight-light"><?php
+                              <td class="font-weight-light">
+                              <?php
                                  switch($motif)
                                  {
                                  	case 1 :
@@ -108,7 +111,8 @@
                                  	case 5 :
                                  		echo "Stage";
                                  		break;
-                                 }?></td>
+                                 }
+                              ?></td>
                               <td class="font-weight-light"><?=$trajet?></td>
                               <td class="font-weight-light"><?=$km?></td>
                               <td><?php 
