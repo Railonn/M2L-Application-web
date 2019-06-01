@@ -9,14 +9,12 @@
  * @package default
  * @author William & Loic
  * @version    1.0
-
  */
-
 class PDOFredi
 {
 	private static $myPDO;
 	private static $myPDOFredi;
-
+	
 	/**
  	* Constructeur privé, crée l'instance de PDO qui sera sollicitée
  	* pour toutes les méthodes de la classe
@@ -25,14 +23,14 @@ class PDOFredi
 	{
     		PDOFredi::$myPDO = new PDO('mysql:host=127.0.0.1;dbname=fredi', 'root', ''); 
     		// 172.16.106.4
-			PDOFredi::$myPDO->query("SET CHARACTER SET utf8");
+		PDOFredi::$myPDO->query("SET CHARACTER SET utf8");
 	}
-
+	
 	public function _destruct()
 	{
 		PDOFredi::$myPDO = null;
 	}
-
+	
 	/**
  	* Fonction statique qui crée l'unique instance de la classe
  	*
@@ -47,7 +45,7 @@ class PDOFredi
 		}
 		return PDOFredi::$myPDOFredi;  
 	}
-
+	
 	/**
 	* Fonction publique qui permet d'ajouter un demandeur à la base de données
 	* @param $nom : nom du demandeur
@@ -72,15 +70,18 @@ class PDOFredi
 	{
 		$sqlVerifLien = "SELECT NUMERO_LICENCE FROM ADHERENTS WHERE NUMERO_LICENCE = '$licence';";
 		$result = PDOFredi::$myPDO->query($sqlVerifLien);
-
 		$licence = $result->rowCount();
-
 		if ($licence == 0) 
 			return false;
 		else
 			return true;
-	}	
+	}
 
+	/**
+	* Fonction publique qui permet de lier un demandeur avec un adhérent
+	* @param $licence : numéro de licence d'un adhérent
+	* @param $mail : mail d'un demandeur
+	*/
 	public function AjoutLien($licence, $mail)
 	{
 		$sqlLien = "INSERT INTO LIEN VALUES('$licence', '$mail');";
@@ -97,9 +98,7 @@ class PDOFredi
 		$sqlPassword = "SELECT PASSWORD FROM DEMANDEURS WHERE ADRESSE_MAIL = '$mail';";
 		$result = PDOFredi::$myPDO->query($sqlPassword) ;
 		$ligne = $result->fetch();
-
 		$BDPassword = $ligne['PASSWORD'];
-
 		return $BDPassword;
 	}
 
@@ -113,7 +112,6 @@ class PDOFredi
 		$sqlInfos = "SELECT * FROM DEMANDEURS WHERE ADRESSE_MAIL = '$mail';";
 		$result = PDOFredi::$myPDO->query($sqlInfos);
 		$ligne = $result->fetch();
-
 		$Infos['mail'] = $ligne['ADRESSE_MAIL'];
 		$Infos['nom'] = $ligne['NOM'];
 		$Infos['prenom'] = $ligne['PRENOM'];
@@ -162,7 +160,6 @@ class PDOFredi
 		$sqlInfosClub = "SELECT NOM_CLUB, VILLE, CP, RUE FROM CLUBS AS C, ADHERENTS AS A WHERE C.NUM_CLUB = A.NUM_CLUB AND A.NUMERO_LICENCE = '$numLicence';";
 		$result = PDOFredi::$myPDO->query($sqlInfosClub);
 		$ligne = $result->fetch();
-
 		$InfosClub['nom'] = $ligne['NOM_CLUB'];
 		$InfosClub['ville'] = $ligne['VILLE'];
 		$InfosClub['cp'] = $ligne['CP'];
@@ -312,7 +309,6 @@ class PDOFredi
 		$InfosDemande['CoutPeage'] = $ligne['COUT_PEAGE'];
 		$InfosDemande['CoutRepas'] = $ligne['COUT_REPAS'];
 		$InfosDemande['CoutHebergement'] = $ligne['COUT_HEBERGEMENT'];
-
 		return $InfosDemande;
 	}
 }
