@@ -312,7 +312,6 @@ class PDOFredi
 		$InfosDemande['CoutPeage'] = $ligne['COUT_PEAGE'];
 		$InfosDemande['CoutRepas'] = $ligne['COUT_REPAS'];
 		$InfosDemande['CoutHebergement'] = $ligne['COUT_HEBERGEMENT'];
-		$InfosDemande['CoutTotal'] = $ligne['TOTAL'];
 
 		return $InfosDemande;
 	}
