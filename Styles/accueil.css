@@ -1,0 +1,19 @@
+﻿html { 
+    margin:0;
+    padding:0;
+    background: url(../Images/bg.jpg) no-repeat center fixed;
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+
+body {
+    background-color: transparent !important;
+}
+
+#login_card {
+    margin-top: 250px;
+}
+
+#password_card {
+    margin-top: 200px;
+}
