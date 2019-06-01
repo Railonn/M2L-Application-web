@@ -1,5 +1,10 @@
 # M2L-Application-web
 
+Application réalisée par DECHAMPS William et DESSERICH Loïc.
+Développée en PHP et HTML sur Visual Studio Code et utilisation du Framework Bootstrap pour le CSS.
+Base de données hébergée par un serveur distant, MYSQL et requêtes en SQL.
+
+
 Modifications apportées à ce projet:
 
     Adaptation de la base de donnée
