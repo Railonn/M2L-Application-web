@@ -61,7 +61,6 @@ class PDOFredi
 		$sqlInscription = "INSERT INTO DEMANDEURS VALUES('$mail','$nom','$prenom','$adresse','$cp','$ville','$password','0');";
 		$result = PDOFredi::$myPDO->exec($sqlInscription);
 	}
-
 	/**
 	* Fonction publique qui permet de vérifier qu'un numéro de licence donné existe dans la base de données
 	* @param $licence : numéro de licence d'un adhérent
@@ -76,7 +75,6 @@ class PDOFredi
 		else
 			return true;
 	}
-
 	/**
 	* Fonction publique qui permet de lier un demandeur avec un adhérent
 	* @param $licence : numéro de licence d'un adhérent
@@ -87,7 +85,6 @@ class PDOFredi
 		$sqlLien = "INSERT INTO LIEN VALUES('$licence', '$mail');";
 		$result = PDOFredi::$myPDO->exec($sqlLien);
 	}
-
 	/**
 	* Fonction publique qui récupère le mot de passe d'une adresse mail
 	* @return $ligne['PASSWORD'] : mot de passe d'un demandeur
@@ -101,7 +98,6 @@ class PDOFredi
 		$BDPassword = $ligne['PASSWORD'];
 		return $BDPassword;
 	}
-
 	/**
 	* Fonction publique qui récupère toutes les informations d'un demandeur en fonction du mail
 	* @param $mail : nom du demandeur
@@ -139,7 +135,6 @@ class PDOFredi
 		$sqlNewProfil = "UPDATE DEMANDEURS SET ADRESSE_MAIL = '$nouveauMail', NOM = '$nom', PRENOM = '$prenom', RUE = '$adresse', CP = '$cp', VILLE = '$ville', PASSWORD = '$password' WHERE ADRESSE_MAIL = '$mailActuel';";		
 		$result = PDOFredi::$myPDO->exec($sqlNewProfil);
 	}
-
 	/**
 	* Fonction publique qui permet de supprimer un lien entre un numéro de licence et un demandeur
 	* @param $licence : numéro de licence à supprimer
@@ -150,7 +145,6 @@ class PDOFredi
 		$sqlSupprimerLien = "DELETE FROM LIEN WHERE NUMERO_LICENCE = '$licence' AND ADRESSE_MAIL = '$mailDemandeur';";
 		$result = PDOFredi::$myPDO->exec($sqlSupprimerLien);
 	}
-
 	/**
 	* Fonction publique qui permet de récupérer les informations du CLUB en fonction du numéro de licence
 	* @param $licence : numéro de licence à supprimer
@@ -166,7 +160,6 @@ class PDOFredi
 		$InfosClub['rue'] = $ligne['RUE'];
 		return $InfosClub;
 	}
-
 	/**
 	* Fonction publique qui permet de récupérer le nombre de demandes effectuées pour un demandeur
 	* @param $mail : mail du demandeur
@@ -192,7 +185,6 @@ class PDOFredi
 		$count = $res->fetchColumn();
 		return $count;
 	}
-
 	/**
 	* Fonction publique qui permet de récupérer les informations des demandes de frais pour un demandeur
 	* @param $mail : mail du demandeur
@@ -218,7 +210,6 @@ class PDOFredi
 		$lesLignes = $res->fetchAll();
 		return $lesLignes;
 	}
-
 	/**
 	* Fonction publique qui permet de récupérer les adhérents liés à un demandeur en fonction du mail
 	* @param $mail : mail du demandeur
@@ -276,10 +267,9 @@ class PDOFredi
 	*/
 	public function ModifierLigne($mail, $dateF, $motif, $trajet, $km, $coutP, $coutR, $coutH, $num_club)
 	{
-		$SqlModifierLigne = "UPDATE LIGNES_FRAIS SET DATE_FRAIS = '$dateF', ID_MOTIF = '$motif', TRAJET = '$trajet', KM = '$km', COUT_PEAGE = '$coutP', COUT_REPAS = '$coutR', COUT_HEBERGEMENT = '$coutH',  WHERE ADRESSE_MAIL = '$mail' AND DATE_FRAIS = '$dateActuel';";		
+		$SqlModifierLigne = "UPDATE LIGNES_FRAIS SET DATE_FRAIS = '$dateF', ID_MOTIF = '$motif', TRAJET = '$trajet', KM = '$km', COUT_PEAGE = '$coutP', COUT_REPAS = '$coutR', COUT_HEBERGEMENT = '$coutH', NUM_CLUB = '$num_club' WHERE ADRESSE_MAIL = '$mail';";		
 		$res = PDOFredi::$myPDO->exec($SqlModifierLigne);
 	}
-
 	/**
 	* Fonction publique qui permet de supprimer des demandes de frais de remboursement en fonction du mail et de la date
 	* @param $mail : mail du demandeur
