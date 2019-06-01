@@ -121,7 +121,6 @@ class PDOFredi
 		$Infos['cp'] = $ligne['CP'];
 		$Infos['ville'] = $ligne['VILLE'];
 		$Infos['password'] = $ligne['PASSWORD'];
-
 		return $Infos;
 	}
 	
@@ -141,8 +140,6 @@ class PDOFredi
 	{
 		$sqlNewProfil = "UPDATE DEMANDEURS SET ADRESSE_MAIL = '$nouveauMail', NOM = '$nom', PRENOM = '$prenom', RUE = '$adresse', CP = '$cp', VILLE = '$ville', PASSWORD = '$password' WHERE ADRESSE_MAIL = '$mailActuel';";		
 		$result = PDOFredi::$myPDO->exec($sqlNewProfil);
-		echo $sqlNewProfil;
-		echo $result;
 	}
 
 	/**
@@ -235,43 +232,74 @@ class PDOFredi
 		$sqlRepresentant = "SELECT a.NUMERO_LICENCE, a.NOM, a.PRENOM, a.NUM_CLUB FROM adherents a, lien l where a.NUMERO_LICENCE = l.NUMERO_LICENCE and l.ADRESSE_MAIL = '$mail'";
 		$res = PDOFredi::$myPDO->query($sqlRepresentant);
 		$lesLignes = $res->fetchAll();
-
 		return $lesLignes;
 	}
 	
-		/**
+	/**
 	 * Fonction publique qui permet de récupérer les motifs des lignes de frais
-	 * @return $lesLignes : 
+	 * @return $lesLignes : liste avec les motifs
 	 */
 	public function Motifs()
 	{
 		$sqlMotif = "SELECT * FROM motifs";
 		$res = PDOFredi::$myPDO->query($sqlMotif);
 		$lesLignes = $res->fetchAll();
-
 		return $lesLignes;
 	}
-
+	
+	/**
+	 * Fonction publique qui permet d'ajouter des demandes de frais de remboursement
+	 * @param $mail : mail du demandeur
+	 * @param $dateF : date de création de la demande
+	 * @param $motif : motif de la demande
+	 * @param $trajet : ville départ et destination
+	 * @param $km : nombre de km parcourus
+	 * @param $coutP : cout des peages
+	 * @param $coutR : cout des repas
+	 * @param $coutH : cout des hebergements
+	 * @param $num_club : numéro du club
+	 */
 	public function AjoutLigne($mail, $dateF, $motif, $trajet, $km, $coutP, $coutR, $coutH, $num_club)
 	{
 		$sqlAjoutLigne = "INSERT INTO LIGNES_FRAIS VALUES('$mail', '$dateF', $motif, '$trajet', $km, $coutP, $coutR, $coutH, 0, 0, 0, 0, 0, $num_club);";
-		echo $sqlAjoutLigne;
 		$res = PDOFredi::$myPDO->exec($sqlAjoutLigne);
 	}
-
-	public function ModifierLigne($mail, $dateActuel, $dateF, $motif, $trajet, $km, $coutP, $coutR, $coutH, $totalL)
+	
+	/**
+	 * Fonction publique qui permet de modifier des demandes de frais de remboursement
+	 * @param $mail : mail du demandeur
+	 * @param $dateF : date de création de la demande
+	 * @param $motif : motif de la demande
+	 * @param $trajet : ville départ et destination
+	 * @param $km : nombre de km parcourus
+	 * @param $coutP : cout des peages
+	 * @param $coutR : cout des repas
+	 * @param $coutH : cout des hebergements
+	 * @param $num_club : numéro du club
+	 */
+	public function ModifierLigne($mail, $dateF, $motif, $trajet, $km, $coutP, $coutR, $coutH, $num_club)
 	{
-		$SqlModifierLigne = "UPDATE LIGNES_FRAIS SET DATE_FRAIS = '$dateF', ID_MOTIF = '$motif', TRAJET = '$trajet', KM = '$km', COUT_PEAGE = '$coutP', COUT_REPAS = '$coutR', COUT_HEBERGEMENT = '$coutH', TOTAL = '$totalL' WHERE ADRESSE_MAIL = '$mail' AND DATE_FRAIS = '$dateActuel';";		
+		$SqlModifierLigne = "UPDATE LIGNES_FRAIS SET DATE_FRAIS = '$dateF', ID_MOTIF = '$motif', TRAJET = '$trajet', KM = '$km', COUT_PEAGE = '$coutP', COUT_REPAS = '$coutR', COUT_HEBERGEMENT = '$coutH',  WHERE ADRESSE_MAIL = '$mail' AND DATE_FRAIS = '$dateActuel';";		
 		$res = PDOFredi::$myPDO->exec($SqlModifierLigne);
 	}
 
+	/**
+	 * Fonction publique qui permet de supprimer des demandes de frais de remboursement en fonction du mail et de la date
+	 * @param $mail : mail du demandeur
+	 * @param $date : date de création de la demande
+	 */
 	public function SupprimerDemande($mail,$date)
 	{
 		$sqlSupprimerDemande = "DELETE FROM LIGNES_FRAIS WHERE ADRESSE_MAIL = '$mail' AND DATE_FRAIS = '$date';";
 		$res = PDOFredi::$myPDO->exec($sqlSupprimerDemande);
-		
 	}
-
+	
+	/**
+	 * Fonction publique qui permet de récupérer les informations sur les demandes de frais de remboursement
+	 * @param $mail : mail du demandeur
+	 * @param $date : date de création de la demande
+	 * @return $InfosDemande : liste avec les informations des demandes de frais
+	 */
 	public function GetInformationsDemande($mail,$date)
 	{
 		$sqlInformationsDemande = "SELECT * FROM LIGNES_FRAIS WHERE ADRESSE_MAIL = '$mail' AND DATE_FRAIS = '$date';";
