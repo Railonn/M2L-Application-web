@@ -14,4 +14,3 @@ Modifications apportées à ce projet:
     Modification du profil d'un demandeur
     Demande de remboursement de notes de frais.
     Consultation des demandes de remboursements.
-   
