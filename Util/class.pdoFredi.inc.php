@@ -124,8 +124,19 @@ class PDOFredi
 
 		return $Infos;
 	}
-
-	// Permet de mettre à jours les informations du demandeur
+	
+	/**
+	 * Fonction publique qui permet de mettre à jours les informations du demandeur dans la base de données.
+	 * @param $nom : nom du demandeur
+	 * @param $prenom : prénom du demandeur
+	 * @param $mail : email du demandeur
+	 * @param $adresse : adresse du demandeur
+	 * @param $cp : code postal du demandeur
+	 * @param $password : mot de passe du demandeur
+	 * @param $ville : ville où vit le demandeur
+	 * @param $nouveauMail : nouveau mail du demandeur
+	 * @param $mailActuel : mail du demandeur avant modification
+	 */
 	public function ModifierProfilDemandeur($nom,$prenom,$nouveauMail,$adresse,$cp,$password,$ville,$mailActuel)
 	{
 		$sqlNewProfil = "UPDATE DEMANDEURS SET ADRESSE_MAIL = '$nouveauMail', NOM = '$nom', PRENOM = '$prenom', RUE = '$adresse', CP = '$cp', VILLE = '$ville', PASSWORD = '$password' WHERE ADRESSE_MAIL = '$mailActuel';";		
@@ -134,14 +145,21 @@ class PDOFredi
 		echo $result;
 	}
 
-	// Permet de supprimer un lien entre un numéro de licence et un demandeur
+	/**
+	 * Fonction publique qui permet de supprimer un lien entre un numéro de licence et un demandeur
+	 * @param $licence : numéro de licence à supprimer
+	 * @param $mailDemandeur : mail du demandeur
+	 */
 	public function SupprimerLien($licence,$mailDemandeur)
 	{
 		$sqlSupprimerLien = "DELETE FROM LIEN WHERE NUMERO_LICENCE = '$licence' AND ADRESSE_MAIL = '$mailDemandeur';";
 		$result = PDOFredi::$myPDO->exec($sqlSupprimerLien);
 	}
 
-	// Permet de récupérer les informations du CLUB en fonction du numéro de Licence
+	 /**
+	 * Fonction publique qui permet de récupérer les informations du CLUB en fonction du numéro de licence
+	 * @param $licence : numéro de licence à supprimer
+	 */
 	public function GetInfosClub($numLicence)
 	{
 		$sqlInfosClub = "SELECT NOM_CLUB, VILLE, CP, RUE FROM CLUBS AS C, ADHERENTS AS A WHERE C.NUM_CLUB = A.NUM_CLUB AND A.NUMERO_LICENCE = '$numLicence';";
@@ -155,7 +173,11 @@ class PDOFredi
 		return $InfosClub;
 	}
 
-	// Permet de récupérer le nombre de demandes effectuées pour un demandeur de licence
+	/**
+	 * Fonction publique qui permet de récupérer le nombre de demandes effectuées pour un demandeur
+	 * @param $mail : mail du demandeur
+	 * @return $count : nombre de demandes effectuées
+	 */
 	public function GetNbDemandes($mail)
 	{
 		$sqlNbDemandesFrais = "SELECT DISTINCT COUNT(*) FROM lignes_frais WHERE ADRESSE_MAIL = '$mail';";
@@ -163,8 +185,12 @@ class PDOFredi
 		$count = $res->fetchColumn();
 		return $count;
 	}
-
-	// Permet de récupérer le nombre de demandes validées pour un demandeur de licence
+	
+	 /**
+	 * Fonction publique qui permet de récupérer le nombre de demandes validées pour un demandeur
+	 * @param $mail : mail du demandeur
+	 * @return $count : nombre de demandes effectuées
+	 */
 	public function GetNbDemandesValid($mail)
 	{
 		$sqlNbDemandesFrais = "SELECT DISTINCT COUNT(*) FROM lignes_frais WHERE ADRESSE_MAIL = '$mail' AND LIGNEVALIDE = 1;";
@@ -173,7 +199,11 @@ class PDOFredi
 		return $count;
 	}
 
-	// Permet de récupérer les informations des demandes de frais pour un demandeur
+	/**
+	 * Fonction publique qui permet de récupérer les informations des demandes de frais pour un demandeur
+	 * @param $mail : mail du demandeur
+	 * @return $lesLignes : liste avec les informations des demandes de frais
+	 */
 	public function GetDemandes($mail)
 	{
 		$sqlDemandesFrais = "SELECT * FROM lignes_frais WHERE ADRESSE_MAIL = '$mail';";
@@ -181,15 +211,25 @@ class PDOFredi
 		$lesLignes = $res->fetchAll();
 		return $lesLignes;
 	}
-
+	
+	/**
+	 * Fonction publique qui permet de récupérer les informations des clubs en fonction du mail
+	 * @param $mail : mail du demandeur
+	 * @return $lesLignes : liste avec les informations des clubs
+	 */
 	public function ListDesClub($mail)
 	{
-		$sqlClub = "SELECT DISTINCT c.NUM_CLUB, c.nom_club FROM clubs c, adherents a, demandeurs d, lien l where c.num_club = a.num_club and l.NUMERO_LICENCE = a.NUMERO_LICENCE and d.ADRESSE_MAIL = l.ADRESSE_MAIL and d.ADRESSE_MAIL = '$mail'";
+		$sqlClub = "SELECT DISTINCT c.NUM_CLUB, c.nom_club FROM CLUBS c, adherents a, DEMANDEURS d, LIEN l WHERE c.num_club = a.num_club and l.NUMERO_LICENCE = a.NUMERO_LICENCE and d.ADRESSE_MAIL = l.ADRESSE_MAIL and d.ADRESSE_MAIL = '$mail'";
 		$res = PDOFredi::$myPDO->query($sqlClub);
 		$lesLignes = $res->fetchAll();
 		return $lesLignes;
 	}
 
+	/**
+	 * Fonction publique qui permet de récupérer les adhérents liés à un demandeur en fonction du mail
+	 * @param $mail : mail du demandeur
+	 * @return $lesLignes : liste avec les informations sur les adhérents
+	 */
 	public function Representant($mail)
 	{
 		$sqlRepresentant = "SELECT a.NUMERO_LICENCE, a.NOM, a.PRENOM, a.NUM_CLUB FROM adherents a, lien l where a.NUMERO_LICENCE = l.NUMERO_LICENCE and l.ADRESSE_MAIL = '$mail'";
@@ -198,7 +238,11 @@ class PDOFredi
 
 		return $lesLignes;
 	}
-
+	
+		/**
+	 * Fonction publique qui permet de récupérer les motifs des lignes de frais
+	 * @return $lesLignes : 
+	 */
 	public function Motifs()
 	{
 		$sqlMotif = "SELECT * FROM motifs";
