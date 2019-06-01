@@ -49,15 +49,15 @@ class PDOFredi
 	}
 
 	/**
-	 * Fonction publique qui permet d'ajouter un demandeur à la base de données
-	 * @param $nom : nom du demandeur
-	 * @param $prenom : prénom du demandeur
-	 * @param $mail : email du demandeur
-	 * @param $adresse : adresse du demandeur
-	 * @param $cp : code postal du demandeur
-	 * @param $password : mot de passe du demandeur
-	 * @param $ville : ville où vit le demandeur
-	 */
+	* Fonction publique qui permet d'ajouter un demandeur à la base de données
+	* @param $nom : nom du demandeur
+	* @param $prenom : prénom du demandeur
+	* @param $mail : email du demandeur
+	* @param $adresse : adresse du demandeur
+	* @param $cp : code postal du demandeur
+	* @param $password : mot de passe du demandeur
+	* @param $ville : ville où vit le demandeur
+	*/
 	public function InscriptionDemandeur($nom, $prenom, $mail, $adresse, $cp, $password, $ville)
 	{
 		$sqlInscription = "INSERT INTO DEMANDEURS VALUES('$mail','$nom','$prenom','$adresse','$cp','$ville','$password','0');";
@@ -65,9 +65,9 @@ class PDOFredi
 	}
 
 	/**
-	 * Fonction publique qui permet de vérifier qu'un numéro de licence donné existe dans la base de données
-	 * @param $licence : numéro de licence d'un adhérent
-	 */
+	* Fonction publique qui permet de vérifier qu'un numéro de licence donné existe dans la base de données
+	* @param $licence : numéro de licence d'un adhérent
+	*/
 	public function VerifLicence($licence)
 	{
 		$sqlVerifLien = "SELECT NUMERO_LICENCE FROM ADHERENTS WHERE NUMERO_LICENCE = '$licence';";
@@ -104,10 +104,10 @@ class PDOFredi
 	}
 
 	/**
-	 * Fonction publique qui récupère toutes les informations d'un demandeur en fonction du mail
-	 * @param $mail : nom du demandeur
-	 * @return $Infos : liste qui contient les informations d'un demandeur
-	 */
+	* Fonction publique qui récupère toutes les informations d'un demandeur en fonction du mail
+	* @param $mail : nom du demandeur
+	* @return $Infos : liste qui contient les informations d'un demandeur
+	*/
 	public function GetInfosDemandeur($mail)
 	{
 		$sqlInfos = "SELECT * FROM DEMANDEURS WHERE ADRESSE_MAIL = '$mail';";
@@ -125,17 +125,17 @@ class PDOFredi
 	}
 	
 	/**
-	 * Fonction publique qui permet de mettre à jours les informations du demandeur dans la base de données.
-	 * @param $nom : nom du demandeur
-	 * @param $prenom : prénom du demandeur
-	 * @param $mail : email du demandeur
-	 * @param $adresse : adresse du demandeur
-	 * @param $cp : code postal du demandeur
-	 * @param $password : mot de passe du demandeur
-	 * @param $ville : ville où vit le demandeur
-	 * @param $nouveauMail : nouveau mail du demandeur
-	 * @param $mailActuel : mail du demandeur avant modification
-	 */
+	* Fonction publique qui permet de mettre à jours les informations du demandeur dans la base de données.
+	* @param $nom : nom du demandeur
+	* @param $prenom : prénom du demandeur
+	* @param $mail : email du demandeur
+	* @param $adresse : adresse du demandeur
+	* @param $cp : code postal du demandeur
+	* @param $password : mot de passe du demandeur
+	* @param $ville : ville où vit le demandeur
+	* @param $nouveauMail : nouveau mail du demandeur
+	* @param $mailActuel : mail du demandeur avant modification
+	*/
 	public function ModifierProfilDemandeur($nom,$prenom,$nouveauMail,$adresse,$cp,$password,$ville,$mailActuel)
 	{
 		$sqlNewProfil = "UPDATE DEMANDEURS SET ADRESSE_MAIL = '$nouveauMail', NOM = '$nom', PRENOM = '$prenom', RUE = '$adresse', CP = '$cp', VILLE = '$ville', PASSWORD = '$password' WHERE ADRESSE_MAIL = '$mailActuel';";		
@@ -143,20 +143,20 @@ class PDOFredi
 	}
 
 	/**
-	 * Fonction publique qui permet de supprimer un lien entre un numéro de licence et un demandeur
-	 * @param $licence : numéro de licence à supprimer
-	 * @param $mailDemandeur : mail du demandeur
-	 */
+	* Fonction publique qui permet de supprimer un lien entre un numéro de licence et un demandeur
+	* @param $licence : numéro de licence à supprimer
+	* @param $mailDemandeur : mail du demandeur
+	*/
 	public function SupprimerLien($licence,$mailDemandeur)
 	{
 		$sqlSupprimerLien = "DELETE FROM LIEN WHERE NUMERO_LICENCE = '$licence' AND ADRESSE_MAIL = '$mailDemandeur';";
 		$result = PDOFredi::$myPDO->exec($sqlSupprimerLien);
 	}
 
-	 /**
-	 * Fonction publique qui permet de récupérer les informations du CLUB en fonction du numéro de licence
-	 * @param $licence : numéro de licence à supprimer
-	 */
+	/**
+	* Fonction publique qui permet de récupérer les informations du CLUB en fonction du numéro de licence
+	* @param $licence : numéro de licence à supprimer
+	*/
 	public function GetInfosClub($numLicence)
 	{
 		$sqlInfosClub = "SELECT NOM_CLUB, VILLE, CP, RUE FROM CLUBS AS C, ADHERENTS AS A WHERE C.NUM_CLUB = A.NUM_CLUB AND A.NUMERO_LICENCE = '$numLicence';";
@@ -171,10 +171,10 @@ class PDOFredi
 	}
 
 	/**
-	 * Fonction publique qui permet de récupérer le nombre de demandes effectuées pour un demandeur
-	 * @param $mail : mail du demandeur
-	 * @return $count : nombre de demandes effectuées
-	 */
+	* Fonction publique qui permet de récupérer le nombre de demandes effectuées pour un demandeur
+	* @param $mail : mail du demandeur
+	* @return $count : nombre de demandes effectuées
+	*/
 	public function GetNbDemandes($mail)
 	{
 		$sqlNbDemandesFrais = "SELECT DISTINCT COUNT(*) FROM lignes_frais WHERE ADRESSE_MAIL = '$mail';";
@@ -183,11 +183,11 @@ class PDOFredi
 		return $count;
 	}
 	
-	 /**
-	 * Fonction publique qui permet de récupérer le nombre de demandes validées pour un demandeur
-	 * @param $mail : mail du demandeur
-	 * @return $count : nombre de demandes effectuées
-	 */
+	/**
+	* Fonction publique qui permet de récupérer le nombre de demandes validées pour un demandeur
+	* @param $mail : mail du demandeur
+	* @return $count : nombre de demandes effectuées
+	*/
 	public function GetNbDemandesValid($mail)
 	{
 		$sqlNbDemandesFrais = "SELECT DISTINCT COUNT(*) FROM lignes_frais WHERE ADRESSE_MAIL = '$mail' AND LIGNEVALIDE = 1;";
@@ -197,10 +197,10 @@ class PDOFredi
 	}
 
 	/**
-	 * Fonction publique qui permet de récupérer les informations des demandes de frais pour un demandeur
-	 * @param $mail : mail du demandeur
-	 * @return $lesLignes : liste avec les informations des demandes de frais
-	 */
+	* Fonction publique qui permet de récupérer les informations des demandes de frais pour un demandeur
+	* @param $mail : mail du demandeur
+	* @return $lesLignes : liste avec les informations des demandes de frais
+	*/
 	public function GetDemandes($mail)
 	{
 		$sqlDemandesFrais = "SELECT * FROM lignes_frais WHERE ADRESSE_MAIL = '$mail';";
@@ -210,10 +210,10 @@ class PDOFredi
 	}
 	
 	/**
-	 * Fonction publique qui permet de récupérer les informations des clubs en fonction du mail
-	 * @param $mail : mail du demandeur
-	 * @return $lesLignes : liste avec les informations des clubs
-	 */
+	* Fonction publique qui permet de récupérer les informations des clubs en fonction du mail
+	* @param $mail : mail du demandeur
+	* @return $lesLignes : liste avec les informations des clubs
+	*/
 	public function ListDesClub($mail)
 	{
 		$sqlClub = "SELECT DISTINCT c.NUM_CLUB, c.nom_club FROM CLUBS c, adherents a, DEMANDEURS d, LIEN l WHERE c.num_club = a.num_club and l.NUMERO_LICENCE = a.NUMERO_LICENCE and d.ADRESSE_MAIL = l.ADRESSE_MAIL and d.ADRESSE_MAIL = '$mail'";
@@ -223,10 +223,10 @@ class PDOFredi
 	}
 
 	/**
-	 * Fonction publique qui permet de récupérer les adhérents liés à un demandeur en fonction du mail
-	 * @param $mail : mail du demandeur
-	 * @return $lesLignes : liste avec les informations sur les adhérents
-	 */
+	* Fonction publique qui permet de récupérer les adhérents liés à un demandeur en fonction du mail
+	* @param $mail : mail du demandeur
+	* @return $lesLignes : liste avec les informations sur les adhérents
+	*/
 	public function Representant($mail)
 	{
 		$sqlRepresentant = "SELECT a.NUMERO_LICENCE, a.NOM, a.PRENOM, a.NUM_CLUB FROM adherents a, lien l where a.NUMERO_LICENCE = l.NUMERO_LICENCE and l.ADRESSE_MAIL = '$mail'";
@@ -236,9 +236,9 @@ class PDOFredi
 	}
 	
 	/**
-	 * Fonction publique qui permet de récupérer les motifs des lignes de frais
-	 * @return $lesLignes : liste avec les motifs
-	 */
+	* Fonction publique qui permet de récupérer les motifs des lignes de frais
+	* @return $lesLignes : liste avec les motifs
+	*/
 	public function Motifs()
 	{
 		$sqlMotif = "SELECT * FROM motifs";
@@ -248,17 +248,17 @@ class PDOFredi
 	}
 	
 	/**
-	 * Fonction publique qui permet d'ajouter des demandes de frais de remboursement
-	 * @param $mail : mail du demandeur
-	 * @param $dateF : date de création de la demande
-	 * @param $motif : motif de la demande
-	 * @param $trajet : ville départ et destination
-	 * @param $km : nombre de km parcourus
-	 * @param $coutP : cout des peages
-	 * @param $coutR : cout des repas
-	 * @param $coutH : cout des hebergements
-	 * @param $num_club : numéro du club
-	 */
+	* Fonction publique qui permet d'ajouter des demandes de frais de remboursement
+	* @param $mail : mail du demandeur
+	* @param $dateF : date de création de la demande
+	* @param $motif : motif de la demande
+	* @param $trajet : ville départ et destination
+	* @param $km : nombre de km parcourus
+	* @param $coutP : cout des peages
+	* @param $coutR : cout des repas
+	* @param $coutH : cout des hebergements
+	* @param $num_club : numéro du club
+	*/
 	public function AjoutLigne($mail, $dateF, $motif, $trajet, $km, $coutP, $coutR, $coutH, $num_club)
 	{
 		$sqlAjoutLigne = "INSERT INTO LIGNES_FRAIS VALUES('$mail', '$dateF', $motif, '$trajet', $km, $coutP, $coutR, $coutH, 0, 0, 0, 0, 0, $num_club);";
@@ -266,17 +266,17 @@ class PDOFredi
 	}
 	
 	/**
-	 * Fonction publique qui permet de modifier des demandes de frais de remboursement
-	 * @param $mail : mail du demandeur
-	 * @param $dateF : date de création de la demande
-	 * @param $motif : motif de la demande
-	 * @param $trajet : ville départ et destination
-	 * @param $km : nombre de km parcourus
-	 * @param $coutP : cout des peages
-	 * @param $coutR : cout des repas
-	 * @param $coutH : cout des hebergements
-	 * @param $num_club : numéro du club
-	 */
+	* Fonction publique qui permet de modifier des demandes de frais de remboursement
+	* @param $mail : mail du demandeur
+	* @param $dateF : date de création de la demande
+	* @param $motif : motif de la demande
+	* @param $trajet : ville départ et destination
+	* @param $km : nombre de km parcourus
+	* @param $coutP : cout des peages
+	* @param $coutR : cout des repas
+	* @param $coutH : cout des hebergements
+	* @param $num_club : numéro du club
+	*/
 	public function ModifierLigne($mail, $dateF, $motif, $trajet, $km, $coutP, $coutR, $coutH, $num_club)
 	{
 		$SqlModifierLigne = "UPDATE LIGNES_FRAIS SET DATE_FRAIS = '$dateF', ID_MOTIF = '$motif', TRAJET = '$trajet', KM = '$km', COUT_PEAGE = '$coutP', COUT_REPAS = '$coutR', COUT_HEBERGEMENT = '$coutH',  WHERE ADRESSE_MAIL = '$mail' AND DATE_FRAIS = '$dateActuel';";		
@@ -284,10 +284,10 @@ class PDOFredi
 	}
 
 	/**
-	 * Fonction publique qui permet de supprimer des demandes de frais de remboursement en fonction du mail et de la date
-	 * @param $mail : mail du demandeur
-	 * @param $date : date de création de la demande
-	 */
+	* Fonction publique qui permet de supprimer des demandes de frais de remboursement en fonction du mail et de la date
+	* @param $mail : mail du demandeur
+	* @param $date : date de création de la demande
+	*/
 	public function SupprimerDemande($mail,$date)
 	{
 		$sqlSupprimerDemande = "DELETE FROM LIGNES_FRAIS WHERE ADRESSE_MAIL = '$mail' AND DATE_FRAIS = '$date';";
@@ -295,11 +295,11 @@ class PDOFredi
 	}
 	
 	/**
-	 * Fonction publique qui permet de récupérer les informations sur les demandes de frais de remboursement
-	 * @param $mail : mail du demandeur
-	 * @param $date : date de création de la demande
-	 * @return $InfosDemande : liste avec les informations des demandes de frais
-	 */
+	* Fonction publique qui permet de récupérer les informations sur les demandes de frais de remboursement
+	* @param $mail : mail du demandeur
+	* @param $date : date de création de la demande
+	* @return $InfosDemande : liste avec les informations des demandes de frais
+	*/
 	public function GetInformationsDemande($mail,$date)
 	{
 		$sqlInformationsDemande = "SELECT * FROM LIGNES_FRAIS WHERE ADRESSE_MAIL = '$mail' AND DATE_FRAIS = '$date';";
