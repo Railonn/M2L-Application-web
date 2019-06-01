@@ -153,7 +153,7 @@ switch ($action) {
         $InfosDemande                    = $pdo->GetInformationsDemande($mail, $date);
 
         // Met à jours les variables de session pour afficher la page des consultations de remboursements de frais
-        $_SESSION['PlusieursDemandes']   = "True";
+        $_SESSION['PlusieursDemandes']   = "False";
         $_SESSION['InfosDemande']        = $InfosDemande;
         $_SESSION['ModifierDemande']     = "True";
         $_SESSION['AfficheInformations'] = "True";
@@ -163,17 +163,16 @@ switch ($action) {
     
     // Permet au demandeur de modifier la demande de remboursement de frais
     case 'modifierDemandeFrais': {
-        $dateActuel = $_REQUEST['date'];
-        $dateF      = $_POST["date_frais"];
-        $motif      = $_POST["motif"];
-        $trajet     = $_POST["trajet"];
-        $km         = $_POST["km"];
-        $coutP      = $_POST["cout_peage"];
-        $coutR      = $_POST["cout_repas"];
-        $coutH      = $_POST["cout_hebergement"];
-        $totalL     = ($_POST['cout_peage'] + $_POST['cout_repas'] + $_POST['cout_hebergement']);
+        $dateF      = $_POST["date_frais1"];
+        $motif      = $_POST["motif1"];
+        $trajet     = $_POST["trajet1"];
+        $km         = $_POST["km1"];
+        $coutP      = $_POST["cout_peage1"];
+        $coutR      = $_POST["cout_repas1"];
+        $coutH      = $_POST["cout_hebergement1"];
+        $num_club  	= $_POST["club"];
         
-        $pdo->ModifierLigne($mail, $dateActuel, $dateF, $motif, $trajet, $km, $coutP, $coutR, $coutH, $totalL);
+        $pdo->ModifierLigne($mail, $dateF, $motif, $trajet, $km, $coutP, $coutR, $coutH, $num_club);
         header("location:index.php?uc=gestionDemandeur&action=voirConsulterDemandeFrais");
         break;
     }
