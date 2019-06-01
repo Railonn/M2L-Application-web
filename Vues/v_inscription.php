@@ -95,8 +95,7 @@
                      <button class="btn btn-warning" type="reset" >Effacer</button>
                      <button class="btn btn-danger float-right" type="submit" onclick="window.location.href='index.php'">Retour</button>
                      <script>  
-                        // Function to check Whether both passwords 
-                        // is same or not. 
+                        // Fonction qui permet de vérifier si les mots de passes sont indentiques
                         var alertPwd = document.getElementById("alertPwd");
                         alertPwd.style.display = 'none';
                         
@@ -112,7 +111,7 @@
                         		return 0;
                         	}
                         	
-                        	// If Not same return False.     
+                        	// Si ils ne sont pas identiques, renvoie faux   
                         	if(password1.value != '' && password2.value != ''){
                         		if (password1.value != password2.value) { 
                         			alertPwd.style.display = 'block';
@@ -121,9 +120,8 @@
                         			return 0;
                         		} 
                         	}
-                        	
-                        
-                        	// If same return True. 
+                           
+                        	// Si ils sont identiques, renvoie vrai
                         	alertPwd.style.display = 'none';
                         	subbtn.classList.remove("disabled");
                         } 
