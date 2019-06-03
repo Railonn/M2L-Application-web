@@ -89,7 +89,7 @@ class PDOFredi
 	
 	/**
 	* Fonction publique qui récupère le mot de passe d'une adresse mail
-	* @return $ligne['PASSWORD'] : mot de passe d'un demandeur
+	* @return $BDPassword : mot de passe d'un demandeur
 	* @param $mail : adresse mail du demandeur
 	**/
 	public function GetPassword($mail)
