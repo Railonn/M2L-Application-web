@@ -21,8 +21,7 @@ class PDOFredi
  	**/
  	private function __construct()
 	{
-    		PDOFredi::$myPDO = new PDO('mysql:host=127.0.0.1;dbname=fredi', 'root', ''); 
-    		// 172.16.106.4
+    		PDOFredi::$myPDO = new PDO('mysql:host=172.16.106.4;dbname=fredi', 'root', ''); 
 		PDOFredi::$myPDO->query("SET CHARACTER SET utf8");
 	}
 	
